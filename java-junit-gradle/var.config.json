@@ -1,0 +1,16 @@
+{
+  "$schema": "../../conformance/config/var.config.schema.json",
+  "docs": {
+    "include": [
+      "*.md"
+    ],
+    "exclude": [
+      "README.md"
+    ]
+  },
+  "steps": [
+    "examples.HelloVarSteps",
+    "examples.TablesAndDocStringsSteps",
+    "examples.YahtzeeSteps"
+  ]
+}
