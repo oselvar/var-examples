@@ -15,9 +15,7 @@
   <properties>
     <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!-- On trunk this is the SNAPSHOT that `mvn install` (run from java/)
-         puts into the local repository, so the sample always tests the code
-         in this repo. In your own project: pin the latest release. -->
+    <!-- The released Vár version from Maven Central. -->
     <var.version>0.3.0</var.version>
   </properties>
 

@@ -2,9 +2,7 @@ plugins {
     kotlin("jvm") version "2.4.0"
 }
 
-// On trunk this is the SNAPSHOT that `mvn install` (run from java/) puts into
-// mavenLocal, so the sample always tests the code in this repo. In your own
-// project: pin the latest release and drop the mavenLocal() repository.
+// The released Vár version from Maven Central.
 val varVersion = "0.3.0"
 
 repositories {
