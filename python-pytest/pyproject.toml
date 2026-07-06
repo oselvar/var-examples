@@ -7,20 +7,7 @@ name = "var-example-python-pytest"
 version = "0.0.1"
 description = "Standalone sample: run Markdown specs as pytest tests with Vár"
 requires-python = ">=3.12"
-dependencies = ["pytest>=8", "pytest-var"]
-
-# PyPI publishing of the Vár packages is parked, so this sample resolves them
-# straight from the source tree: path sources in the oselvar/var monorepo,
-# rewritten to git+tag sources when synced to oselvar/var-examples. Once the
-# packages are on PyPI, this whole table disappears — the plain dependency
-# above is all a real project needs. The transitive set is listed because
-# pytest-var pins its internal dependencies exactly (==<version>).
-[tool.uv.sources]
-pytest-var = { git = "https://github.com/oselvar/var", subdirectory = "python/packages/var-pytest", tag = "v0.3.1" }
-oselvar-var = { git = "https://github.com/oselvar/var", subdirectory = "python/packages/var", tag = "v0.3.1" }
-oselvar-var-core = { git = "https://github.com/oselvar/var", subdirectory = "python/packages/var-core", tag = "v0.3.1" }
-oselvar-var-config = { git = "https://github.com/oselvar/var", subdirectory = "python/packages/var-config", tag = "v0.3.1" }
-oselvar-var-runner = { git = "https://github.com/oselvar/var", subdirectory = "python/packages/var-runner", tag = "v0.3.1" }
+dependencies = ["pytest>=8", "pytest-var==0.3.1"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/roman_numerals_example", "src/yahtzee_example"]
