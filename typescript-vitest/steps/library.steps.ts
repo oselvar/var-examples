@@ -1,71 +1,62 @@
-import { defineState } from '@oselvar/var'
+import { steps } from '@oselvar/var'
+import { addMoney, FEE_PER_DAY, GBP, type Loan, lateFee, type Money, mayBorrow } from './library'
 
-// import { Library } from '../src/library'
+// Custom parameter types are declared with chained `.param()` calls so their
+// parse return types flow into the steps: {date} → Date, {money} → Money,
+// {title} → string. The step handlers below need no argument annotations as a
+// result.
+const { stimulus, sensor } = steps(() => ({
+  loans: [] as ReadonlyArray<Loan>,
+  fee: GBP(0),
+  granted: false,
+}))
+  // June 6, 2026 ⇄ a Date. (Temporal.PlainDate would fit better — swap it
+  // in once Node ships Temporal unflagged; today it's behind --harmony-temporal.)
+  .param(
+    'date',
+    /[A-Z][a-z]+ \d{1,2}, \d{4}/,
+    (raw) => new Date(raw),
+    (d) => d.toLocaleDateString('en-US', { dateStyle: 'long' }),
+  )
+  // £2.50 and 50p, both as GBP Money. The amount is cucumber-expressions'
+  // float regexp, minus the scientific notation. The inverse format renders
+  // mismatches as £2.60 / 50p, not as a Money dump.
+  .param(
+    'money',
+    /£(?=.*\d.*)[-+]?\d*(?:\.(?=\d.*))?\d*|\d+p/,
+    (raw): Money =>
+      raw.endsWith('p') ? GBP(Number.parseFloat(raw) / 100) : GBP(Number.parseFloat(raw.slice(1))),
+    (m) => (m.value < 1 ? `${Math.round(m.value * 100)}p` : `£${m.value.toFixed(2)}`),
+  )
+  // The emphasised run IS the parameter: the markers live in the pattern,
+  // parse strips them, format restores them. Markup is notation, like £2.50.
+  .param(
+    'title',
+    /\*[^*]+\*/,
+    (raw) => raw.slice(1, -1),
+    (t) => `*${t}*`,
+  )
 
-const MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-] as const
+stimulus('borrowed {title}, due back on {date}', (state, title, due) => ({
+  loans: [...state.loans, { title, due }],
+}))
 
-// Custom parameter types are declared inline so their transformer return types
-// flow into the steps: {date} → Date, {money} → number, {title} → string. The
-// step handlers below need no argument annotations as a result.
-const { stimulus, sensor } = defineState(
-  () => ({
-    // library: new Library(),
-    member: 'maya',
-  }),
-  {
-    date: {
-      regexp:
-        /(January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2})(?:st|nd|rd|th)/,
-      transformer: (month: string, day: string) =>
-        new Date(Date.UTC(2026, MONTHS.indexOf(month as (typeof MONTHS)[number]), Number(day))),
-    },
-    money: {
-      // pence: matches £3.50 and 50p
-      regexp: /£(\d+(?:\.\d{2})?)|(\d+)p/,
-      transformer: (pounds: string | undefined, pence: string | undefined) =>
-        pounds !== undefined ? Math.round(Number(pounds) * 100) : Number(pence),
-    },
-    title: {
-      // markdown emphasis doubles as the parameter boundary
-      regexp: /\*([^*]+)\*/,
-      transformer: (title: string) => title,
-    },
-  },
-)
+stimulus('returns it on {date}', (state, returnedOn) => ({
+  fee: state.loans.reduce((fee, loan) => addMoney(fee, lateFee(loan, returnedOn)), GBP(0)),
+}))
 
-stimulus('Maya has borrowed {string}, due back on {date}', (_state, _title, _due) => {
-  // ctx.library.checkOut(ctx.member, title, due)
+sensor('owes a {money} late fee', (state) => state.fee)
+
+sensor('{money} for each day overdue', () => FEE_PER_DAY)
+
+stimulus('asks to borrow {title} on {date}', (state, _title, on) => ({
+  granted: mayBorrow(state.loans, on),
+}))
+
+sensor('the library refuses', (state) => {
+  if (state.granted) throw new Error('expected the library to refuse')
 })
 
-stimulus('she returns it on {date}', (_state, _returned) => {
-  // ctx.library.checkIn(ctx.member, returned)
-})
-
-sensor('charges her a {money} late fee', (_state, _fee) => {
-  // expect(ctx.library.feesOwedBy(ctx.member)).toBe(fee)
-})
-
-sensor('{money} for each day overdue', (_state, _dailyRate) => {
-  // ...
-})
-
-sensor('Her account shows the fee', (_state) => {
-  // expect(ctx.library.accountOf(ctx.member).fees).toBeGreaterThan(0)
-})
-
-sensor("she can't borrow anything else", (_state) => {
-  // expect(() => ctx.library.checkOut(...)).toThrow(/unpaid/i)
+sensor('the library agrees', (state) => {
+  if (!state.granted) throw new Error('expected the library to agree')
 })
