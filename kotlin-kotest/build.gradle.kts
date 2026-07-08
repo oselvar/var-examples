@@ -3,7 +3,7 @@ plugins {
 }
 
 // The released Vár version from Maven Central.
-val varVersion = "0.4.0"
+val varVersion = "0.4.1"
 
 repositories {
     mavenCentral()
