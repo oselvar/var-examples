@@ -7,7 +7,7 @@ name = "var-example-python-unittest"
 version = "0.0.1"
 description = "Standalone sample: run Markdown specs as unittest tests with Vár"
 requires-python = ">=3.12"
-dependencies = ["oselvar-var-unittest==0.4.1"]
+dependencies = ["oselvar-var-unittest==0.4.2"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/library_example", "src/roman_numerals_example", "src/yahtzee_example"]
