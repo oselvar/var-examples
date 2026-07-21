@@ -2,17 +2,17 @@ plugins {
     kotlin("jvm") version "2.4.0"
 }
 
-// The released Vár version from Maven Central.
-val varVersion = "0.4.2"
+// The released Varar version from Maven Central.
+val varVersion = "0.5.1"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation("com.oselvar:var-kotlin:$varVersion")
-    testImplementation("com.oselvar:var-junit:$varVersion")
-    testImplementation(platform("org.junit:junit-bom:6.1.1"))
+    testImplementation("dev.varar:kotlin:$varVersion")
+    testImplementation("dev.varar:junit:$varVersion")
+    testImplementation(platform("org.junit:junit-bom:6.1.2"))
     testImplementation("org.junit.platform:junit-platform-suite")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

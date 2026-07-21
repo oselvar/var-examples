@@ -1,11 +1,11 @@
-from var import steps
+from varar import steps
 
 param, stimulus, sensor = steps(lambda: {"greeting": "", "result": 0})
 
 
 @stimulus("I greet {string}")
 def _(state, name):
-    return {"greeting": f"Hello, {name}!"}
+    return {**state, "greeting": f"Hello, {name}!"}
 
 
 @sensor("the greeting should be {string}")
@@ -15,7 +15,7 @@ def _(state, expected):
 
 @stimulus("expression `{int}+{int}`")
 def _(state, a, b):
-    return {"result": a + b}
+    return {**state, "result": a + b}
 
 
 @sensor("evaluate to `{int}`")

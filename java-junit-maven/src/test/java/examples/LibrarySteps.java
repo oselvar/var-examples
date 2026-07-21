@@ -1,9 +1,8 @@
 package examples;
 
-import com.oselvar.var.Registrar;
-import com.oselvar.var.State;
-import com.oselvar.var.StateBinder;
-import com.oselvar.var.StepDefinitions;
+import dev.varar.State;
+import dev.varar.StepDefinitions;
+import dev.varar.Steps;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -11,43 +10,36 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-public final class LibrarySteps implements StepDefinitions {
+public final class LibrarySteps implements StepDefinitions<LibrarySteps.Ctx> {
 
     record Ctx(List<Library.Loan> loans, Library.Money fee, boolean granted) implements State {}
 
-    /** June 6, 2026 ⇄ LocalDate 2026-06-06 — one formatter drives both parse and format. */
     private static final DateTimeFormatter DATE = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
 
-    /** £2.50 and 50p, both as GBP Money. */
     private static Library.Money toMoney(String raw) {
         return raw.endsWith("p")
                 ? Library.gbp(Double.parseDouble(raw.substring(0, raw.length() - 1)) / 100)
                 : Library.gbp(Double.parseDouble(raw.substring(1)));
     }
 
-    /** The inverse: mismatches render as £2.60 / 50p, not as a Money dump. */
     private static String formatMoney(Library.Money m) {
         return m.value() < 1 ? Math.round(m.value() * 100) + "p" : String.format(Locale.ROOT, "£%.2f", m.value());
     }
 
     @Override
-    public void defineSteps(Registrar registrar) {
-        StateBinder<Ctx> s = registrar.steps(() -> new Ctx(List.of(), Library.gbp(0), false));
+    public void register(Steps<Ctx> s) {
+        s.state(() -> new Ctx(List.of(), Library.gbp(0), false));
 
         s.param(
                 "date",
                 Pattern.compile("[A-Z][a-z]+ \\d{1,2}, \\d{4}"),
                 groups -> LocalDate.parse(groups[0], DATE),
                 DATE::format);
-        // £2.50 and 50p, both as GBP Money. The amount is cucumber-expressions'
-        // float regexp, minus the scientific notation.
         s.param(
                 "money",
                 Pattern.compile("£(?=.*\\d.*)[-+]?\\d*(?:\\.(?=\\d.*))?\\d*|\\d+p"),
                 groups -> toMoney(groups[0]),
                 LibrarySteps::formatMoney);
-        // The emphasised run IS the parameter: the markers live in the pattern,
-        // parse strips them, format restores them. Markup is notation, like £2.50.
         s.param(
                 "title",
                 Pattern.compile("\\*[^*]+\\*"),

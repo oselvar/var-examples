@@ -1,5 +1,5 @@
-# Runs in the oselvar/var-examples repo, where examples/ is synced on every
-# release of oselvar/var. In the monorepo this file is inert (GitHub only
+# Runs in the varar-dev/varar-examples repo, where examples/ is synced on every
+# release of varar-dev/varar. In the monorepo this file is inert (GitHub only
 # reads workflows from the repo root); the monorepo runs the projects against
 # the local build via .github/workflows/*.yml instead.
 name: kotlin-junit
@@ -22,10 +22,19 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      # The JDK version is never written here — it comes from the repo-root
+      # .tool-versions, the same pin `make check` uses locally.
+      - name: Toolchain pin
+        id: pin
+        run: |
+          v=$(awk '/^java /{print $2; exit}' ../.tool-versions)
+          echo "distribution=${v%%-*}" >> "$GITHUB_OUTPUT"
+          echo "java=$(echo "${v#*-}" | cut -d. -f1)" >> "$GITHUB_OUTPUT"
+
       - uses: actions/setup-java@v5
         with:
-          distribution: temurin
-          java-version: '21'
+          distribution: ${{ steps.pin.outputs.distribution }}
+          java-version: ${{ steps.pin.outputs.java }}
 
       - uses: gradle/actions/setup-gradle@v6
 

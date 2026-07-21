@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 # During development these resolve against the local monorepo build. The release
-# sync (release/targets/60-var-examples.sh) rewrites them to the published
-# versions, e.g. gem "oselvar-var-rspec", "~> 0.3".
-gem "oselvar-var-core", "0.4.2"
-gem "oselvar-var", "0.4.2"
-gem "oselvar-var-config", "0.4.2"
-gem "oselvar-var-runner", "0.4.2"
-gem "oselvar-var-rspec", "0.4.2"
+# sync (release/targets/70-varar-examples.sh) rewrites them to the published
+# versions, e.g. gem 'varar-rspec', '~> 0.3'.
+gem 'varar', '0.5.1'
+gem 'varar-config', '0.5.1'
+gem 'varar-core', '0.5.1'
+gem 'varar-rspec', '0.5.1'
+gem 'varar-runner', '0.5.1'
 
-gem "rspec", "~> 3.13"
+gem 'rspec', '~> 3.13'

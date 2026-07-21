@@ -1,17 +1,16 @@
 package examples;
 
-import com.oselvar.var.Registrar;
-import com.oselvar.var.State;
-import com.oselvar.var.StateBinder;
-import com.oselvar.var.StepDefinitions;
+import dev.varar.State;
+import dev.varar.StepDefinitions;
+import dev.varar.Steps;
 
-public final class HelloVarSteps implements StepDefinitions {
+public final class HelloVarSteps implements StepDefinitions<HelloVarSteps.Ctx> {
 
     record Ctx(String greeting, int result) implements State {}
 
     @Override
-    public void defineSteps(Registrar registrar) {
-        StateBinder<Ctx> s = registrar.steps(() -> new Ctx("", 0));
+    public void register(Steps<Ctx> s) {
+        s.state(() -> new Ctx("", 0));
 
         s.stimulus("I greet {string}", (Ctx ctx, String name) -> new Ctx("Hello, " + name + "!", ctx.result()));
         s.sensor("the greeting should be {string}", (Ctx ctx, String expected) -> ctx.greeting());

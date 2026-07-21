@@ -1,17 +1,16 @@
 package examples;
 
-import com.oselvar.var.Registrar;
-import com.oselvar.var.State;
-import com.oselvar.var.StateBinder;
-import com.oselvar.var.StepDefinitions;
+import dev.varar.State;
+import dev.varar.StepDefinitions;
+import dev.varar.Steps;
 
-public final class DeepThoughtSteps implements StepDefinitions {
+public final class DeepThoughtSteps implements StepDefinitions<DeepThoughtSteps.Ctx> {
 
     record Ctx() implements State {}
 
     @Override
-    public void defineSteps(Registrar registrar) {
-        StateBinder<Ctx> s = registrar.steps(Ctx::new);
+    public void register(Steps<Ctx> s) {
+        s.state(Ctx::new);
 
         s.sensor("life, the universe and everything is {int}", (Ctx ctx, Integer answer) -> 42);
     }
