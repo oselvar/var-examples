@@ -3,7 +3,7 @@ plugins {
 }
 
 // The released Varar version from Maven Central.
-val varVersion = "0.5.2"
+val varVersion = "0.6.1"
 
 repositories {
     mavenCentral()

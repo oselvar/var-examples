@@ -2,7 +2,7 @@ module github.com/varar-dev/varar-examples/go-gotest
 
 go 1.26
 
-require github.com/varar-dev/varar/go v0.5.2
+require github.com/varar-dev/varar/go v0.6.1
 
 require (
 	github.com/cucumber/cucumber-expressions-go v6.2.0+incompatible // indirect
