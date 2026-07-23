@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Varar" Version="0.6.1" />
-    <PackageReference Include="Varar.TestAdapter" Version="0.6.1" />
+    <PackageReference Include="Varar" Version="0.7.0" />
+    <PackageReference Include="Varar.TestAdapter" Version="0.7.0" />
   </ItemGroup>
 
 </Project>

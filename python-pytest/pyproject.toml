@@ -5,9 +5,9 @@ build-backend = "hatchling.build"
 [project]
 name = "var-example-python-pytest"
 version = "0.0.1"
-description = "Standalone sample: run Markdown specs as pytest tests with Vár"
+description = "Standalone sample: run Markdown specs as pytest tests with Varar"
 requires-python = ">=3.12"
-dependencies = ["pytest>=8", "pytest-varar==0.6.1"]
+dependencies = ["pytest>=8", "pytest-varar==0.7.0"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/library_example", "src/roman_numerals_example", "src/yahtzee_example"]

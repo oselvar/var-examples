@@ -9,9 +9,9 @@
     "test": "vitest run"
   },
   "devDependencies": {
-    "@varar/varar": "^0.6.1",
-    "@varar/core": "^0.6.1",
-    "@varar/vitest": "^0.6.1",
+    "@varar/varar": "^0.7.0",
+    "@varar/core": "^0.7.0",
+    "@varar/vitest": "^0.7.0",
     "@types/node": "^26.1.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10"

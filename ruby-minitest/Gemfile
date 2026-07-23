@@ -5,11 +5,11 @@ source 'https://rubygems.org'
 # During development these resolve against the local monorepo build. The release
 # sync (release/targets/72-varar-examples.sh) rewrites them to the published
 # versions, e.g. gem 'varar-minitest', '~> 0.3'.
-gem 'varar', '0.6.1'
-gem 'varar-config', '0.6.1'
-gem 'varar-core', '0.6.1'
-gem 'varar-minitest', '0.6.1'
-gem 'varar-runner', '0.6.1'
+gem 'varar', '0.7.0'
+gem 'varar-config', '0.7.0'
+gem 'varar-core', '0.7.0'
+gem 'varar-minitest', '0.7.0'
+gem 'varar-runner', '0.7.0'
 
 gem 'minitest', '~> 6.0'
 gem 'rake', '~> 13.0'

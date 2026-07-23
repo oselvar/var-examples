@@ -10,17 +10,17 @@ description = "Standalone sample: run Markdown specs as `cargo test` tests with 
 # crates instead.
 [dependencies]
 # The engine (steps are authored against it) and the cargo-test adapter.
-varar-core = "0.6.1"
-varar-cargotest = "0.6.1"
+varar-core = "0.7.0"
+varar-cargotest = "0.7.0"
 # The ergonomic author facade (`varar::Steps`), used by the step definitions.
-varar = "0.6.1"
+varar = "0.7.0"
 # The library sample's domain type for dates.
 chrono = "0.4"
 
 [dev-dependencies]
 # The `unit` test drives discovery and a single example directly.
-varar-config = "0.6.1"
-varar-runner = "0.6.1"
+varar-config = "0.7.0"
+varar-runner = "0.7.0"
 
 [lib]
 name = "example"

@@ -1,7 +1,7 @@
-# Vár + Ruby + RSpec
+# Varar + Ruby + RSpec
 
 A standalone sample project that runs Markdown specs as RSpec examples with
-[Vár](https://varar.dev).
+[Varar](https://varar.dev).
 
 The `*.md` files at the project root are the specs — plain Markdown prose that
 runs as tests. `steps/*.steps.rb` bind the sentences to Ruby inside a
@@ -19,5 +19,5 @@ bundle exec rspec
 `spec/var_spec.rb` calls `Varar::RSpec.generate`, which turns every
 matched spec into one RSpec example group with one `it` per Markdown example
 (header-bound table rows are separate examples). A paragraph that used to match
-a step and no longer does fails as **drift**; re-run with `VAR_UPDATE=1` to
+a step and no longer does fails as **drift**; re-run with `VARAR_UPDATE=1` to
 accept it. The committed `varar.lock.json` is that drift baseline.
